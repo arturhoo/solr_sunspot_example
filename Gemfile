@@ -17,6 +17,7 @@ group :development, :test do
   gem 'sunspot_solr'
   gem 'progress_bar'
   gem 'annotate'
+  gem 'rspec-rails'
 end
 
 group :development do

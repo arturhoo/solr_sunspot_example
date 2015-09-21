@@ -29,3 +29,11 @@
     - ~/.rbenv/shims/bundle exec rake db:create
     - ~/.rbenv/shims/bundle exec rake db:migrate
     - ~/.rbenv/shims/bundle exec rake sunspot:reindex
+- name: ensure everything is working
+  become: yes
+  become_user: "{{ deploy_user }}"
+  command: ~/.rbenv/shims/bundle exec rspec
+  args:
+    chdir: /vagrant
+  environment:
+    RAILS_ENV: production
