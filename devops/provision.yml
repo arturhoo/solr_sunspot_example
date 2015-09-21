@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  vars:
+    deploy_user: vagrant
+    rubies:
+      - 2.2.3
+    global_ruby: 2.2.3
+    solr_create_collections: true
+    solr_collections:
+      - solr_sunspot_example
+  pre_tasks:
+    - name: update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+  roles:
+    - base
+    - java
+    - solr
+    - ruby
+    - postgresql
+    - { role: provision, tags: ['provision'] }

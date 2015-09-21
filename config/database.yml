@@ -81,5 +81,3 @@ test:
 production:
   <<: *default
   database: solr_sunspot_example_production
-  username: solr_sunspot_example
-  password: <%= ENV['SOLR_SUNSPOT_EXAMPLE_DATABASE_PASSWORD'] %>

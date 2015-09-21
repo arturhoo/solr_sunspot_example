@@ -1,0 +1,31 @@
+---
+- name: copy solr custom files over
+  copy:
+    src: "{{ item }}"
+    dest: "/var/solr/data/solr_sunspot_example/conf/{{ item }}"
+    owner: solr
+    group: solr
+    mode: 0644
+  with_items:
+    - schema.xml
+    - solrconfig.xml
+  notify:
+    - restart solr
+- meta: flush_handlers
+- name: install javascript runtime
+  apt:
+    name: nodejs
+    state: present
+- name: rails tasks
+  become: yes
+  become_user: "{{ deploy_user }}"
+  command: "{{ item }}"
+  args:
+    chdir: /vagrant
+  environment:
+    RAILS_ENV: production
+  with_items:
+    - ~/.rbenv/shims/bundle install
+    - ~/.rbenv/shims/bundle exec rake db:create
+    - ~/.rbenv/shims/bundle exec rake db:migrate
+    - ~/.rbenv/shims/bundle exec rake sunspot:reindex
